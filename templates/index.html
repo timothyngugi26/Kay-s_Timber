@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kay's Timber and Thread Studio.- Furnitures Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Kay's Timber</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#instagram">Instagram</a>
+            <a href="Tiktok">Tiktok</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h2>Welcome to Kay's Timber</h2>
+        <p>Elegant and style for your home and office</p>
+        <button onclick="showAlert()">Shop Now</button>
+    </section>
+
+    <section id="products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/7seater.png') }}" alt="Laptop">
+                <h3>7 Seater</h3>
+                <p>designed with family in mind</p>
+            </div>
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Headphones">
+                <h3>luxurious set</h3>
+                <p>Experience the best in the luxury world</p>
+            </div>
+        </div>
+          <div class="product-card">
+                <img src="{{ url_for('static', filename='images/desk.png') }}" alt="Headphones">
+                <h3></h3>
+                <p>For office luxury</p>
+            </div>
+        </div>
+
+    </section>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
