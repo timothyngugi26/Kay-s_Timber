@@ -1,0 +1,12 @@
+    <h2>Upload Image</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if upload_result %}
+        <h3>Uploaded Image:</h3>
+        <img src="{{ upload_result.url }}" alt="Uploaded Image">
+    {% endif %}
+{% endblock %}
+

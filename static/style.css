@@ -2,11 +2,11 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color:#b8b894;
+    background-color: #b8b894;
 }
 
 header {
-    background-color:#0000ff;
+    background-color: #0000ff;
     color: white;
     padding: 1rem;
     display: flex;
@@ -23,33 +23,41 @@ nav a {
 .hero {
     text-align: center;
     padding: 50px;
-    background:black;
+    background: black;
     color: white;
 }
 
 .product-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    grid-template-rows: repeat(2, auto); /* Two rows */
+    gap: 20px; /* Space between items */
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    padding: 20px;
 }
 
 .product-card {
-            width: 30%;
-            height: 200px;
-            background-color: white;
-            box-shadow: 0 3px 6px 0 grey, 0 8px 16px 0 black;
-            margin-bottom: 25px;
-            margin: 20px;
-        }
-        img {
-            width: 100%;
-            height: 150px;
-        }
-        .box {
-            text-align: center;
-            padding: 5px;
-        }
+    background-color: white;
+    box-shadow: 0 3px 6px grey, 0 8px 16px black;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+}
 
+.product-card img {
+    width: 50%;
+    height: auto;
+    max-height: 200px; /* Ensure images are uniform */
+    object-fit: cover;
+}
+
+.box {
+    text-align: center;
+    padding: 5px;
+}
+
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
@@ -57,7 +65,9 @@ form {
     margin: auto;
 }
 
-form input, form textarea {
+form input, 
+form textarea {
     margin: 10px 0;
     padding: 10px;
 }
+

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kay's Timber and Thread Studio.- Furnitures Hub</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
@@ -22,29 +23,41 @@
         <p>Elegant and style for your home and office</p>
         <button onclick="showAlert()">Shop Now</button>
     </section>
-
-    <section id="products">
-        <h2>Featured Products</h2>
-        <div class="product-grid">
+<section id="products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        {% for item in furniture_items %}
             <div class="product-card">
-                <img src="{{ url_for('static', filename='images/7seater.png') }}" alt="Laptop">
-                <h3>7 Seater</h3>
-                <p>designed with family in mind</p>
+                <img src="{{ url_for('static', filename='images/' ~ item.image_filename) }}" alt="{{ item.name }}">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <p><strong>Price:</strong> KES {{ item.price }}</p>
             </div>
-            <div class="product-card">
-                <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Headphones">
-                <h3>luxurious set</h3>
-                <p>Experience the best in the luxury world</p>
-            </div>
+        {% endfor %}
+        
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/7seater.png') }}" alt="7 Seater">
+            <h3>7 Seater</h3>
+            <p>Designed with family in mind</p>
         </div>
-          <div class="product-card">
-                <img src="{{ url_for('static', filename='images/desk.png') }}" alt="Headphones">
-                <h3></h3>
-                <p>For office luxury</p>
-            </div>
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Luxurious Set">
+            <h3>Luxurious Set</h3>
+            <p>Experience the best in the luxury world</p>
         </div>
-
-    </section>
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Luxurious Set">
+            <h3>Luxurious Set</h3>
+            <p>Experience the best in the luxury world</p>
+        </div>
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Luxurious Set">
+            <h3>Luxurious Set</h3>
+            <p>Experience the best in the luxury world</p>
+        </div>
+    </div>
+</section>
+    {% include 'footer.html' %}
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
