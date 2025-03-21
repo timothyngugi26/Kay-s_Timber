@@ -1,18 +1,32 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from PIL import Image
 
 app = Flask(__name__)
 
-# Configure upload folder
+# Configure upload folder and database
 UPLOAD_FOLDER = "static/images"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///furniture.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Ensure the upload directory exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Initialize database
+db = SQLAlchemy(app)
+
+# Define Furniture model
+class Furniture(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    image_filename = db.Column(db.String(255), nullable=False)
 
 def allowed_file(filename):
     """Check if the uploaded file is allowed."""
@@ -24,14 +38,21 @@ def resize_image(image_path, max_width=500):
     width, height = img.size
 
     if width > max_width:
-        # Calculate new height while keeping aspect ratio
         new_height = int((max_width / width) * height)
         img = img.resize((max_width, new_height))
         img.save(image_path)  # Overwrite the original image
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
+def home():
+    return render_template("index.html")  # Home Page
+
+@app.route("/admin", methods=["GET", "POST"])
 def upload_image():
     if request.method == "POST":
+        name = request.form.get("name")
+        description = request.form.get("description")
+        price = request.form.get("price")
+
         if "file" not in request.files:
             return "No file part"
 
@@ -42,15 +63,28 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            file.save(filepath)
+            image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(image_path)
 
             # Resize the image
-            resize_image(filepath)
+            resize_image(image_path)
 
-            return redirect(url_for("upload_image"))
+            # Save product info to database
+            new_product = Furniture(name=name, description=description, price=float(price), image_filename=filename)
+            db.session.add(new_product)
+            db.session.commit()
 
-    return render_template("index.html")
+            return redirect(url_for("display_products"))
+
+    return render_template("admin.html")  # Admin Panel
+
+@app.route("/products")
+def display_products():
+    products = Furniture.query.all()
+    return render_template("products.html", products=products)  # Display Uploaded Products
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    with app.app_context():
+        db.create_all()  # Create database tables
+    app.run(debug=True, port=10000)
+

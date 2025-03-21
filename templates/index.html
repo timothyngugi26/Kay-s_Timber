@@ -21,7 +21,9 @@
     <section id="home" class="hero">
         <h2>Welcome to Kay's Timber</h2>
         <p>Elegant and style for your home and office</p>
-        <button onclick="showAlert()">Shop Now</button>
+        <a href="/products">
+    <button>Shop Now</button>
+        </a>
     </section>
 <section id="products">
     <h2>Featured Products</h2>
@@ -50,10 +52,21 @@
             <h3>Luxurious Set</h3>
             <p>Experience the best in the luxury world</p>
         </div>
+        
         <div class="product-card">
             <img src="{{ url_for('static', filename='images/luxurious.png') }}" alt="Luxurious Set">
             <h3>Luxurious Set</h3>
             <p>Experience the best in the luxury world</p>
+        </div>
+         <div class="product-card">
+            <img src="{{ url_for('static', filename='images/7seater.png') }}" alt="7 Seater">
+            <h3>7 Seater</h3>
+            <p>Designed with family in mind</p>
+        </div>
+         <div class="product-card">
+            <img src="{{ url_for('static', filename='images/7seater.png') }}" alt="7 Seater">
+            <h3>7 Seater</h3>
+            <p>Designed with family in mind</p>
         </div>
     </div>
 </section>
