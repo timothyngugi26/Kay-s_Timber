@@ -1,12 +1,23 @@
-    <h2>Upload Image</h2>
+<h2>Upload Image</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <input type="submit" value="Upload">
+</form>
+
+{% if upload_result %}
+    <h3>Uploaded Image:</h3>
+    <img src="{{ upload_result.url }}" alt="Uploaded Image" style="max-width: 300px; display: block; margin-bottom: 10px;">
+    
+    <!-- Form to replace the uploaded image -->
     <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+        <input type="file" name="new_file" required>
+        <input type="hidden" name="action" value="edit">
+        <input type="submit" value="Replace Image">
     </form>
-
-    {% if upload_result %}
-        <h3>Uploaded Image:</h3>
-        <img src="{{ upload_result.url }}" alt="Uploaded Image">
-    {% endif %}
-{% endblock %}
-
+    
+    <!-- Form to delete the uploaded image -->
+    <form method="post">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="Remove Image" style="background-color: red; color: white;">
+    </form>
+{% endif %}

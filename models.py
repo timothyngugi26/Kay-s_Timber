@@ -8,7 +8,6 @@ from wtforms import StringField, TextAreaField, FileField, FloatField, SubmitFie
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileAllowed
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///furniture.db'
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -16,13 +15,6 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 db = SQLAlchemy(app)
 admin = Admin(app, name="Admin Panel", template_mode="bootstrap3")
 login_manager = LoginManager(app)
-
-class Furniture(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    description = db.Column(db.Text)
-    price = db.Column(db.Float)
-    image_filename = db.Column(db.String(100))
 
 # User Model
 class User(db.Model, UserMixin):
@@ -39,25 +31,17 @@ class Furniture(db.Model):
     price = db.Column(db.Float, nullable=False)
     image_filename = db.Column(db.String(100), nullable=False)  # Image storage
 
-# Secure admin panel so only admin users can access it
-class SecureModelView(ModelView):
-    def is_accessible(self):
-        from flask_login import current_user
-        return current_user.is_authenticated and current_user.is_admin
-
+# Furniture Form
 class FurnitureForm(FlaskForm):
     name = StringField('Furniture Name', validators=[DataRequired()])
-    description = TextAreaField('
-Description', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
     price = FloatField('Price', validators=[DataRequired()])
     image = FileField('Furniture Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Upload')
 
-admin = Admin(app, name='Simo Furnitures Admin', template_mode='bootstrap3')
+# Add an unrestricted view (anyone with admin panel access can modify furniture)
 admin.add_view(ModelView(Furniture, db.session))
 
-admin.add_view(SecureModelView(Furniture, db.session))
-
 if __name__ == "__main__":
-    db.create_all()  # Run this once to create the database
     app.run(debug=True)
+

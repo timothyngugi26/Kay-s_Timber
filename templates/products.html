@@ -12,9 +12,12 @@
             <h3>{{ product.name }}</h3>
             <img src="{{ url_for('static', filename='images/' + product.image_filename) }}" width="200">
             <p>{{ product.description }}</p>
-            <p>Price: 	Ksh.{{ product.price }}</p>
+            <p>Price:   Ksh.{{ product.price }}</p>
         </div>
     {% endfor %}
     <br>
 </body>
 </html>
+
+
+

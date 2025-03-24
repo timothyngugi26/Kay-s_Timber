@@ -2,6 +2,8 @@ import os
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from models import Furniture
+from config import config_dict
 from PIL import Image
 
 app = Flask(__name__)
@@ -19,6 +21,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Initialize database
 db = SQLAlchemy(app)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    image_filename = db.Column(db.String(100), nullable=False)
 
 # Define Furniture model
 class Furniture(db.Model):
@@ -77,6 +86,11 @@ def upload_image():
             return redirect(url_for("display_products"))
 
     return render_template("admin.html")  # Admin Panel
+
+@app.route('/admin')
+def admin_panel():
+    products = Product.query.all()  # Fetch all products from the database
+    return render_template('admin.html', products=products) 
 
 @app.route("/products")
 def display_products():
