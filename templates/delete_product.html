@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Product Deletion</title>
+</head>
+<body>
+    <h1>Confirm Product Deletion</h1>
+    
+    <div>
+        <strong>Warning:</strong> You are about to permanently delete this product. This action cannot be undone.
+    </div>
+    
+    <div>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ "%.2f"|format(product.price) }}</p>
+        <p>Product ID: {{ product.id }}</p>
+    </div>
+    
+    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+        <button type="submit">Delete Permanently</button>
+        <a href="{{ url_for('display_products') }}">Cancel</a>
+    </form>
+</body>
+</html>
